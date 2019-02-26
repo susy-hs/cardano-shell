@@ -21,48 +21,105 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
-  other-modules:
-      Paths_cardano_shell
+      Cardano.Shell.Lib
+    , Cardano.Shell.Types
+    , Cardano.Shell.Presets
+    , Cardano.Shell.Configuration.Types
+    , Cardano.Shell.Configuration.Lib
+    , Cardano.Shell.Constants.Types
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
-  default-language:    Haskell2010
-  default-extensions:  OverloadedStrings
+    , cardano-prelude
+    -- general util
+    , directory
+    , formatting
+    , safe-exceptions
+    , text
+    , transformers
+    -- json & config
+    , contravariant
+    , dhall
+    , ekg-core
+    --, async
+    --, concurrency
+    , QuickCheck
+    , text
+    , transformers
+    , concurrency
+    , QuickCheck
 
+  default-language:    Haskell2010
+  default-extensions:  NoImplicitPrelude
+                       OverloadedStrings
+                       
   ghc-options:         -Wall
-                       -Werror
+                       -Wcompat
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+                       -Wpartial-fields
 
 executable cardano-shell-exe
   main-is: Main.hs
   other-modules:
       Paths_cardano_shell
+    , Cardano.Shell.Features.Logging
+    , Cardano.Shell.Features.Networking
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , cardano-shell
+    , cardano-prelude
+    -- util
+    , safe-exceptions
+    -- features
+    , iohk-monitoring
   default-language:    Haskell2010
-  default-extensions:  OverloadedStrings
+  default-extensions:  NoImplicitPrelude
+                       OverloadedStrings
 
   ghc-options:         -Wall
                        -Werror
+                       -Wcompat
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+                       -Wpartial-fields
 
 test-suite cardano-shell-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
       Paths_cardano_shell
+      DhallConfigSpec
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , cardano-shell
+    , cardano-prelude
+    , dhall
+    , safe-exceptions
+    -- quickcheck
+    , QuickCheck
+    , hspec
+    , hspec-contrib
+    , concurrency
+    , dejafu
+    , hunit-dejafu
   default-language:    Haskell2010
-  default-extensions:  OverloadedStrings
+  default-extensions:  NoImplicitPrelude
+                       OverloadedStrings
 
   ghc-options:         -Wall
                        -Werror
+                       -Wcompat
+                       -Wincomplete-record-updates
+                       -Wincomplete-uni-patterns
+                       -Wredundant-constraints
+                       -Wpartial-fields
