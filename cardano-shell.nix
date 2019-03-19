@@ -9,11 +9,14 @@ mkDerivation {
   src = ./.;
   isLibrary = true;
   isExecutable = true;
-  libraryHaskellDepends = [
+  libraryHaskellDepends = ([
     base cardano-prelude concurrency contravariant dhall directory
     ekg-core formatting iohk-monitoring QuickCheck safe-exceptions text
-    transformers network Cabal process aeson containers
-  ];
+    transformers network Cabal process aeson containers]) ++ (if system.isWindows
+            then [ (hsPkgs.Win32) ]
+            else [
+              (hsPkgs.unix)]);
+
   executableHaskellDepends = [
     base cardano-prelude iohk-monitoring safe-exceptions
   ];
