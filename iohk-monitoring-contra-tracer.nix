@@ -1,5 +1,5 @@
 { mkDerivation, base, contravariant, fetchgit, QuickCheck, random
-, stdenv, tasty, tasty-hunit, tasty-quickcheck, text, unix
+, stdenv, tasty, tasty-hunit, tasty-quickcheck, text, unix, Win32
 }:
 mkDerivation {
   pname = "contra-tracer";
@@ -11,7 +11,7 @@ mkDerivation {
     fetchSubmodules = true;
   };
   postUnpack = "sourceRoot+=/contra-tracer; echo source root reset to $sourceRoot";
-  libraryHaskellDepends = [ base contravariant text unix ];
+  libraryHaskellDepends = [ base contravariant text (if stdenv.hostPlatform.isWindows == true then Win32 else unix) ];
   testHaskellDepends = [
     base QuickCheck random tasty tasty-hunit tasty-quickcheck text
   ];

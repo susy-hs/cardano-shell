@@ -5,7 +5,7 @@
 , safe, safe-exceptions, scientific, semigroups, split, stdenv, stm
 , tasty, tasty-hunit, tasty-quickcheck, template-haskell, text
 , threepenny-gui, time, time-units, transformers, unix
-, unordered-containers, vector, void, yaml
+, unordered-containers, vector, void, Win32, yaml
 }:
 mkDerivation {
   pname = "iohk-monitoring";
@@ -24,10 +24,12 @@ mkDerivation {
     contra-tracer bytestring clock containers contravariant directory
     ekg ekg-core filepath katip lens libyaml mtl safe safe-exceptions
     scientific stm template-haskell text threepenny-gui time time-units
-    transformers unix unordered-containers vector yaml
+    transformers (if stdenv.hostPlatform.isWindows == true then Win32 else unix)
+    unordered-containers vector yaml
   ];
   executableHaskellDepends = [
-    async base bytestring download mtl random text unix
+    async base bytestring download mtl random text
+    (if stdenv.hostPlatform.isWindows == true then Win32 else unix)
   ];
   testHaskellDepends = [
     aeson array async base contra-tracer bytestring clock containers
