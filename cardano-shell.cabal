@@ -59,7 +59,6 @@ library
     , safe-exceptions
     , text
     , transformers
-    , unix
     -- json & config
     , contravariant
     , dhall
@@ -68,7 +67,10 @@ library
     , QuickCheck
     , text
     , transformers
-    , unix
+  if os(windows)
+     build-depends: Win32
+  else
+     build-depends: unix
 
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
@@ -147,7 +149,6 @@ executable cardano-launcher
     , cardano-sl-x509
     -- process managment
     , process
-    , unix
     -- directory
     , directory
     , filepath
@@ -155,6 +156,11 @@ executable cardano-launcher
     , formatting
     -- exception handling
     , safe-exceptions
+  if os(windows)
+     build-depends: Win32
+  else
+     build-depends: unix
+  
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
                        OverloadedStrings
